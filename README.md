@@ -1,14 +1,15 @@
 # 🏦 Processamento de Contas Bancárias COBOL
 
-Projeto desenvolvido em COBOL para processamento de contas bancárias utilizando arquivos sequenciais e execução via JCL em ambiente Mainframe.
+Projeto desenvolvido em COBOL para processamento de contas bancárias utilizando arquivos sequenciais, ordenação de registros com SORT e execução batch via JCL em ambiente Mainframe.
 
 ## 📌 Funcionalidades
 
-- Leitura de arquivo de contas bancárias
+- Leitura de arquivo sequencial de contas bancárias
+- Ordenação das contas por agência utilizando SORT
 - Exibição dos dados das contas
 - Contagem total de contas processadas
-- Cálculo do saldo total
-- Utilização de Copybook para definição dos registros
+- Cálculo do saldo total das contas
+- Utilização de Copybook para definição do layout dos registros
 - Execução batch através de JCL
 
 ## 📄 Estrutura do Registro
@@ -32,7 +33,8 @@ Projeto desenvolvido em COBOL para processamento de contas bancárias utilizando
 
 - COBOL
 - JCL
-- Mainframe TK4-
+- SORT / Merge Utility
+- Mainframe TK5
 - TSO/ISPF
 - Hercules Emulator
 
@@ -44,14 +46,19 @@ Projeto desenvolvido em COBOL para processamento de contas bancárias utilizando
 │   └── REGCONT.cpy
 │
 ├── jcl
-│   ├── CARGCON.jcl
-│   ├── COMPCON.jcl
-│   └── EXECCON.jcl
+│   ├── COMPCTA.jcl
+│   ├── EXECCTA.jcl
+│   └── SORTCTA.jcl
+│
+├── data
+│   ├── CONTAS.TXT
+│   └── CONTAS.SORT
 │
 ├── docs
-|   ├── compilacao.png
-│   ├── execucao.png
-│   └── resultado.png
+│   ├── sort_ok.png
+│   ├── execucao_01.png
+│   ├── execucao_02.png
+│   └── job_0000.png
 │
 ├── README.md
 └── .gitignore
@@ -59,9 +66,50 @@ Projeto desenvolvido em COBOL para processamento de contas bancárias utilizando
 
 ## ▶️ Execução
 
-1. Executar o arquivo `CARGCON.jcl` para criar e carregar o arquivo de contas.
-2. Compilar o programa utilizando `COMPCON.jcl`.
-3. Executar o processamento utilizando `EXECCON.jcl`.
+### 1. Compilação
+
+Executar o JCL:
+
+```text
+COMPCTA.jcl
+```
+
+### 2. Ordenação
+
+Executar o JCL:
+
+```text
+SORTCTA.jcl
+```
+
+Responsável por ordenar o arquivo de contas pela agência.
+
+### 3. Processamento
+
+Executar o JCL:
+
+```text
+EXECCTA.jcl
+```
+
+Responsável por processar o arquivo ordenado, exibir as contas e apresentar as estatísticas finais.
+
+## 📊 Resultado Obtido
+
+O programa realiza:
+
+- Leitura das contas bancárias
+- Exibição dos dados das contas
+- Totalização da quantidade de contas
+- Soma dos saldos
+- Ordenação dos registros por agência
+
+Exemplo de saída:
+
+```text
+TOTAL DE CONTAS: 00005
+SALDO TOTAL....: 001275
+```
 
 ## 📚 Conceitos Praticados
 
@@ -73,8 +121,10 @@ Projeto desenvolvido em COBOL para processamento de contas bancárias utilizando
 - PERFORM
 - Acumuladores
 - Processamento Batch
+- SORT
 - JCL
 - Mainframe
+- TSO/ISPF
 
 ## 👩‍💻 Autora
 
